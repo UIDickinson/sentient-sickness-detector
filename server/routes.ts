@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { mlModel } from "./services/ml-model";
-import { openaiService } from "./services/openai";
+import { fireworksService } from "./services/openai";
 import { diagnosisRequestSchema, type DiagnosisResponse } from "@shared/schema";
 import { z } from "zod";
 
@@ -59,7 +59,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Generate conversational AI response
-      const chatResponse = await openaiService.generateChatResponse(
+      const chatResponse = await fireworksService.generateChatResponse(
         symptoms, 
         predictions, 
         followUpQuestion
@@ -97,7 +97,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Missing required fields: symptoms, predictions, and question" });
       }
 
-      const chatResponse = await openaiService.generateChatResponse(
+      const chatResponse = await fireworksService.generateChatResponse(
         symptoms,
         predictions,
         question
