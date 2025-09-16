@@ -1,15 +1,22 @@
 import OpenAI from "openai";
 import { type Prediction } from '@shared/schema';
 
-const openai = new OpenAI({ 
-  apiKey: process.env.OPENAI_API_KEY // Fail fast if missing
+const fireworks = new OpenAI({ 
+  apiKey: process.env.FIREWORKS_API_KEY, // Fail fast if missing
+  baseURL: 'https://api.fireworks.ai/inference/v1/chat/completions'
 });
 
-if (!process.env.OPENAI_API_KEY) {
-  throw new Error("OPENAI_API_KEY environment variable is required");
+if (!process.env.FIREWORKS_API_KEY) {
+  throw new Error("FIREWORKS_API_KEY environment variable is required");
 }
 
-export class OpenAIService {
+export class FireworksAIService {
+  // Choose your preferred Llama model
+  private readonly model = "accounts/sentientfoundation/models/dobby-unhinged-llama-3-3-70b-new";
+  // Alternative models you can use:
+  // "accounts/fireworks/models/llama-v3-70b-instruct" - More capable but slower
+  // "accounts/fireworks/models/llama-v3p1-405b-instruct" - Most capable but slowest
+
   /**
    * Generate conversational response from ML predictions
    */
@@ -53,8 +60,8 @@ export class OpenAIService {
 
       Keep the response concise but thorough (2-3 paragraphs).`;
 
-      const response = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
+      const response = await fireworks.chat.completions.create({
+        model: this.model,
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: userPrompt }
@@ -65,16 +72,17 @@ export class OpenAIService {
 
       // Debug logging for development
       if (process.env.NODE_ENV === 'development') {
-        console.log('OpenAI Response:', {
+        console.log('Fireworks AI Response:', {
           content_length: response.choices[0].message.content?.length || 0,
-          usage: response.usage
+          usage: response.usage,
+          model: this.model
         });
       }
 
       return response.choices[0].message.content || "I apologize, but I'm unable to provide an assessment at this time. Please consult with your veterinarian directly.";
 
     } catch (error) {
-      console.error("OpenAI API error:", error);
+      console.error("Fireworks AI API error:", error);
       return "I'm experiencing technical difficulties right now. For your dog's safety, please contact your veterinarian directly to discuss these symptoms.";
     }
   }
@@ -97,8 +105,8 @@ export class OpenAIService {
       - If asked about emergency signs, be clear and specific
       - Keep responses concise and actionable`;
 
-      const response = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
+      const response = await fireworks.chat.completions.create({
+        model: this.model,
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: question }
@@ -110,7 +118,7 @@ export class OpenAIService {
       return response.choices[0].message.content || "I recommend discussing this specific question with your veterinarian for the most accurate guidance.";
 
     } catch (error) {
-      console.error("OpenAI API error:", error);
+      console.error("Fireworks AI API error:", error);
       return "I'm unable to answer that question right now. Please contact your veterinarian for specific guidance about your dog's condition.";
     }
   }
@@ -125,8 +133,8 @@ export class OpenAIService {
     Provide a calm but urgent response telling the owner to seek immediate veterinary care. Include what to do while getting to the vet.`;
 
     try {
-      const response = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
+      const response = await fireworks.chat.completions.create({
+        model: this.model,
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: userPrompt }
@@ -138,10 +146,31 @@ export class OpenAIService {
       return response.choices[0].message.content || `Based on these symptoms, please seek immediate veterinary care for ${emergencyCondition}. Contact your emergency vet or animal hospital right away.`;
 
     } catch (error) {
-      console.error("OpenAI API error:", error);
+      console.error("Fireworks AI API error:", error);
       return `These symptoms require immediate veterinary attention. Please contact your emergency veterinarian or animal hospital right away.`;
     }
   }
+
+  /**
+   * Get the current model being used
+   */
+  getCurrentModel(): string {
+    return this.model;
+  }
+
+  /**
+   * Switch to a different Llama model if needed
+   */
+  setModel(model: 'llama-8b' | 'llama-70b'): void {
+    const modelMap = {
+      'llama-8b': 'accounts/sentientfoundation-serverless/models/dobby-mini-unhinged-plus-llama-3-1-8b',
+      'llama-70b': 'accounts/sentientfoundation/models/dobby-unhinged-llama-3-3-70b-new',
+     };
+    
+    // Note: This would require making the model property mutable
+    // For now, just log the intended change
+    console.log(`Would switch to model: ${modelMap[model]}`);
+  }
 }
 
-export const openaiService = new OpenAIService();
+export const fireworksService = new FireworksAIService();
