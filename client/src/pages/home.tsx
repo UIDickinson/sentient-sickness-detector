@@ -1,4 +1,5 @@
 import { useState } from "react";
+import dobbyImg from '../../../attached_asset/dobby64.png';
 import { useMutation } from "@tanstack/react-query";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -80,8 +81,8 @@ export default function Home() {
         <div className="bg-card rounded-xl shadow-sm border border-border p-8 mb-8">
           <div className="text-center">
             <img 
-              src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300" 
-              alt="Happy golden retriever dog portrait" 
+              src={dobbyImg}
+              alt="Dobby mascot dog portrait" 
               className="w-32 h-24 object-cover rounded-xl mx-auto mb-6 shadow-md"
               data-testid="img-welcome-dog"
             />
