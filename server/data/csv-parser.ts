@@ -15,7 +15,7 @@ export class CSVDataParser {
 
   private parseCSV() {
     try {
-      const csvPath = join(process.cwd(), 'attached_assets', 'symtomdata_1757954561163.csv');
+      const csvPath = join(process.cwd(), 'attached_asset', 'symtomdata_1757954561163.csv');
       const csvContent = readFileSync(csvPath, 'utf-8');
       const lines = csvContent.split('\n');
       
