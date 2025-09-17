@@ -1,3 +1,5 @@
+My contribution for Sentient Community.
+
 This application uses a **CSV dataset** of disease-symptom records loaded from attached_assets. The exact size depends on the loaded CSV file. The ML engine predicts diseases based on symptom combinations, and dobby-unhinged-llama-3-3-70b-new translates technical predictions into empathetic, easy-to-understand language for dog owners.
 
 ## Key Features
