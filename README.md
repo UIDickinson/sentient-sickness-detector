@@ -143,3 +143,17 @@ The application includes data-testid attributes on interactive elements for test
 - `data-testid="button-view-details"` - Technical details toggle
 
 Manual testing can verify the complete user journey from symptom entry to AI diagnosis.
+
+## Potential Issues & Deployment Checklist
+
+Refer to this list to avoid common problems when running or deploying the app:
+
+- **Replit Dependencies:** Ensure all Replit-specific plugins and configuration are removed from your codebase and dependencies.
+- **Environment Variables:** The app requires `FIREWORKS_API_KEY` for AI features. Make sure all required environment variables are set in your local or deployment environment.
+- **Asset Paths:** Images (e.g., `dobby64.png`, `iacpKDQc_400x400.jpg`) must exist at the specified paths. Broken links will result in missing images.
+- **Port Configuration:** The backend runs on port 5000 by default. Adjust if another process uses this port or if your frontend expects a different port.
+- **Build Scripts:** Use the correct commands (`npm run dev`, `npm run build`, `npm run preview`) for development and production.
+- **API Keys and External Services:** AI features depend on external services (Fireworks AI). Network issues or invalid keys will break these features.
+- **TypeScript/Compile Errors:** Unresolved TypeScript or lint errors will prevent the app from building or running.
+- **Data Source:** The CSV file for symptoms/diseases must be present and correctly formatted.
+- **Docker/Deployment:** If deploying with Docker, ensure your Dockerfile and docker-compose.yml are up to date and compatible with your environment.
