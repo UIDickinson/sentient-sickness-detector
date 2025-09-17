@@ -13,7 +13,7 @@ export function Header() {
             </div>
             <div>
               <h1 className="text-xl font-semibold text-foreground">Dog Symptom Checker</h1>
-              <p className="text-sm text-muted-foreground">AI-Powered Veterinary Assessment</p>
+              <p className="text-sm text-muted-foreground">SentientAI-Powered Veterinary Assessment</p>
             </div>
           </Link>
           <div className="flex items-center space-x-4">
