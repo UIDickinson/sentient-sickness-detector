@@ -29,7 +29,7 @@ export function Footer() {
           </div>
         </div>
         <div className="border-t border-border mt-8 pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; 2024 Dog Symptom Checker. This tool is for educational purposes only. Always consult your veterinarian for medical advice.</p>
+          <p>&copy; Although this project is built with a real dataset; This tool is for educational purposes only. Always consult your veterinarian for medical advice.</p>
         </div>
       </div>
     </footer>
